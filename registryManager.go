@@ -2,10 +2,10 @@ package main
 
 import (
 	"flag"
-	"log"
-	"manager/docker"
 	"fmt"
+	"log"
 	"manager/config"
+	"manager/docker"
 	"manager/subcommands"
 )
 
@@ -18,7 +18,6 @@ func main() {
 	flag.Parse()
 
 	var err error
-
 
 	// 命令行指定的配置文件优先，没有指定尝试读取默认配置，
 	// 默认配置不存在则要求输入docker配置文件的路径，并保存在默认配置中
@@ -34,14 +33,12 @@ func main() {
 		Config, err = config.Create()
 	}
 
-
-
 	/*
-	if *conf == "" {
-		Config, err = config.NewDefault()
-	} else {
-		Config, err = config.New(*conf)
-	}
+		if *conf == "" {
+			Config, err = config.NewDefault()
+		} else {
+			Config, err = config.New(*conf)
+		}
 
 	*/
 
@@ -61,7 +58,7 @@ func main() {
 
 	fmt.Printf("All commands are: %s\n", subcommands.AllCmds)
 
-	err = subcommands.CmdScaner(dockerConf)
+	err = subcommands.CmdScanner(dockerConf)
 	if err != nil {
 		log.Fatalln(err)
 	}

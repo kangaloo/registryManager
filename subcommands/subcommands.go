@@ -1,17 +1,17 @@
 package subcommands
 
 import (
+	"bufio"
+	"fmt"
+	"log"
+	"manager/common"
 	"manager/docker"
 	"os"
-	"fmt"
-	"manager/common"
-	"bufio"
-	"log"
 )
 
-const AllCmds  = `show set del exit`
+const AllCmds = `show set del exit`
 
-const helpStr  = `	help: show this help
+const helpStr = `	help: show this help
 	exit: exit the manager
 	quit: same as exit
 	set:  set the docker config path
@@ -25,7 +25,7 @@ func help(c *docker.Config) error {
 	return nil
 }
 
-func exit(c *docker.Config) error  {
+func exit(c *docker.Config) error {
 	os.Exit(0)
 	return nil
 }
@@ -61,7 +61,6 @@ func show(c *docker.Config) error {
 
 }
 
-
 func add() {
 	fmt.Print("> ")
 	//iterm := readStdin()
@@ -72,21 +71,19 @@ func del() {
 
 }
 
-
 type cmd func(config *docker.Config) error
 
-var subCommands = map[string]cmd {
+var subCommands = map[string]cmd{
 	"show": show,
 	"exit": exit,
 	"quit": exit,
 	"help": help,
-	"set" :  set,
+	"set":  set,
 	//"save": save,
 	//"add":  add,
 	//"del":  del,
 	//"exit": exit,
 }
-
 
 /*
 func CMDParser() {
@@ -108,10 +105,10 @@ func readStdin() string {
 }
 
 // TODO 针对registries实现 增加、删除、修改、查看四个功能
-func CmdScaner(conf *docker.Config) error {
+func CmdScanner(conf *docker.Config) error {
 
-// TODO 对每个输入进行检查、修改
-// TODO 每个输入都是不可靠的，需要去掉开头、结尾的空格、换行符等
+	// TODO 对每个输入进行检查、修改
+	// TODO 每个输入都是不可靠的，需要去掉开头、结尾的空格、换行符等
 
 	r := bufio.NewReader(os.Stdin)
 
@@ -137,6 +134,5 @@ func CmdScaner(conf *docker.Config) error {
 		}
 
 	}
-
 
 }

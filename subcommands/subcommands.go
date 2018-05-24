@@ -54,9 +54,11 @@ func set(c *docker.Config) error {
 func show(c *docker.Config) error {
 
 	reg := c.Get("insecure-registries")
-	for _, v := range reg {
-		fmt.Println(v)
-	}
+	//for _, v := range reg {
+	//	fmt.Println(v)
+	//}
+
+	fmt.Println(reg)
 
 	return nil
 

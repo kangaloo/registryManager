@@ -1,23 +1,21 @@
 package docker
 
 import (
-	"manager/common"
-	"os"
-	"time"
-	"strconv"
 	"errors"
 	"io/ioutil"
+	"manager/common"
+	"os"
+	"strconv"
+	"time"
 )
 
-
-const DefaultPath ="/etc/docker/daemon.json"
-
+//const DefaultPath ="/etc/docker/daemon.json"
 
 type Config struct {
-	path    string
+	path     string
 	backPath string
-	isBack bool
-	config  map[string][]string
+	isBack   bool
+	config   map[string]interface{}
 }
 
 func New(c string) (*Config, error) {
@@ -28,7 +26,7 @@ func New(c string) (*Config, error) {
 		return nil, err
 	}
 
-	var conf = &Config{path:c}
+	var conf = &Config{path: c}
 
 	err = conf.load()
 
@@ -38,7 +36,6 @@ func New(c string) (*Config, error) {
 
 	return conf, nil
 }
-
 
 func (c *Config) load() error {
 
@@ -75,7 +72,7 @@ func (c *Config) ReLoad() error {
 
 }
 
-func (c *Config) SetPath(path string) error  {
+func (c *Config) SetPath(path string) error {
 
 	_, err := os.Stat(path)
 	if err != nil {
@@ -91,7 +88,7 @@ func (c *Config) SetPath(path string) error  {
 	return nil
 }
 
-func (c *Config) setBackPath()  {
+func (c *Config) setBackPath() {
 
 	t := int(time.Now().Unix())
 	s := strconv.Itoa(t)
@@ -111,12 +108,7 @@ func (c *Config) Back() error {
 	return nil
 }
 
-func (c *Config) DelBack() error  {
-
-
-
-
-
+func (c *Config) DelBack() error {
 
 	return nil
 }
@@ -170,14 +162,13 @@ func (c *Config) Dump() error {
 
 }
 
-func (c *Config) Get(s string) []string {
+func (c *Config) Get(s string) interface{} {
 	i, ok := c.config[s]
 	if !ok {
 		return nil
 	}
 	return i
 }
-
 
 /*
 func (c *Config) Append(s, iterm string) error {
@@ -193,6 +184,3 @@ func (c *Config) Append(s, iterm string) error {
 
 }
 */
-
-
-

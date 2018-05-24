@@ -50,6 +50,7 @@ func set(c *docker.Config) error {
 	return c.SetPath(l)
 }
 
+// print docker insecure registries
 func show(c *docker.Config) error {
 
 	reg := c.Get("insecure-registries")
@@ -61,12 +62,14 @@ func show(c *docker.Config) error {
 
 }
 
+// add a docker insecure registry
 func add() {
 	fmt.Print("> ")
 	//iterm := readStdin()
 
 }
 
+// delete a docker insecure registry
 func del() {
 
 }

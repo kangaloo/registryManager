@@ -9,6 +9,7 @@ func completer(d prompt.Document) []prompt.Suggest {
 		{Text: "set", Description: "Reset the docker config path"},
 		{Text: "exit", Description: "Quit this manager"},
 		{Text: "quit", Description: "Quit this manager"},
+		{Text: "help", Description: "Print usage"},
 	}
 	return prompt.FilterHasPrefix(s, d.GetWordBeforeCursor(), true)
 }

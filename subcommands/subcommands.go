@@ -2,6 +2,7 @@ package subcommands
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"log"
 	"manager/common"
@@ -73,9 +74,9 @@ func del() {
 
 }
 
-type cmd func(config *docker.Config) error
+type Cmd func(config *docker.Config) error
 
-var subCommands = map[string]cmd{
+var subCommands = map[string]Cmd{
 	"show": show,
 	"exit": exit,
 	"quit": exit,
@@ -106,6 +107,15 @@ func readStdin() string {
 	return string(l)
 }
 
+// check if the command exist
+func CmdChecker(c []byte) (Cmd, error) {
+	cmd, ok := subCommands[string(c)]
+	if !ok {
+		return nil, errors.New(fmt.Sprintf("%s command not exist", c))
+	}
+	return cmd, nil
+}
+
 // TODO 针对registries实现 增加、删除、修改、查看四个功能
 func CmdScanner(conf *docker.Config) error {
 
@@ -119,14 +129,14 @@ func CmdScanner(conf *docker.Config) error {
 		fmt.Print(">> ")
 		l, _, err := r.ReadLine()
 		if err != nil {
-			// todo 此处应设置一个错误处理方式，使得出错后尽量不影响程序运行
+			// TODO 此处应设置一个错误处理方式，使得出错后尽量不影响程序运行
 			log.Fatalln(err)
 		}
 
-		cmd, ok := subCommands[string(l)]
+		cmd, err := CmdChecker(l)
 
-		if !ok {
-			fmt.Printf("command %s not exist\n", string(l))
+		if err != nil {
+			fmt.Println(err)
 			continue
 		}
 
@@ -134,7 +144,5 @@ func CmdScanner(conf *docker.Config) error {
 		if err != nil {
 			fmt.Println(err)
 		}
-
 	}
-
 }

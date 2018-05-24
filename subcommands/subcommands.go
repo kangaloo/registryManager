@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
-	"log"
+	"github.com/c-bata/go-prompt"
 	"manager/common"
 	"manager/docker"
 	"os"
@@ -110,8 +110,8 @@ func readStdin() string {
 }
 
 // check if the command exist
-func CmdChecker(c []byte) (Cmd, error) {
-	cmd, ok := subCommands[string(c)]
+func CmdChecker(c string) (Cmd, error) {
+	cmd, ok := subCommands[c]
 	if !ok {
 		return nil, errors.New(fmt.Sprintf("%s command not exist", c))
 	}
@@ -124,16 +124,20 @@ func CmdScanner(conf *docker.Config) error {
 	// TODO 对每个输入进行检查、修改
 	// TODO 每个输入都是不可靠的，需要去掉开头、结尾的空格、换行符等
 
-	r := bufio.NewReader(os.Stdin)
+	//r := bufio.NewReader(os.Stdin)
 
 	for {
 
-		fmt.Print(">> ")
-		l, _, err := r.ReadLine()
-		if err != nil {
-			// TODO 此处应设置一个错误处理方式，使得出错后尽量不影响程序运行
-			log.Fatalln(err)
-		}
+		l := prompt.Input(">> ", completer)
+
+		/*
+			fmt.Print(">> ")
+			l, _, err := r.ReadLine()
+			if err != nil {
+				// TODO 此处应设置一个错误处理方式，使得出错后尽量不影响程序运行
+				log.Fatalln(err)
+			}
+		*/
 
 		cmd, err := CmdChecker(l)
 

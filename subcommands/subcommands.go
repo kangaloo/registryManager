@@ -8,6 +8,7 @@ import (
 	"manager/common"
 	"manager/docker"
 	"os"
+	"strings"
 )
 
 const AllCmds = `show set del exit`
@@ -129,6 +130,7 @@ func CmdScanner(conf *docker.Config) error {
 	for {
 
 		l := prompt.Input(">> ", completer)
+		l = strings.TrimSpace(l)
 
 		/*
 			fmt.Print(">> ")

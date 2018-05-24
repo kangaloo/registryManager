@@ -42,8 +42,7 @@ func save() {
 
 // set docker config path
 func set(c *docker.Config) error {
-	fmt.Printf("Input the docker config path: ")
-	l, err := common.Scaner()
+	l, err := common.Scanner("Input the docker config path: ")
 	if err != nil {
 		return err
 	}

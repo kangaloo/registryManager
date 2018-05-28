@@ -55,6 +55,14 @@ func set(c *docker.Config) error {
 func show(c *docker.Config) error {
 
 	reg := c.Get("insecure-registries")
+
+	if v, ok := reg.([]interface{}); ok {
+		for _, i := range v {
+			fmt.Println(i)
+		}
+	} else {
+		fmt.Println("not string slice .")
+	}
 	//for _, v := range reg {
 	//	fmt.Println(v)
 	//}

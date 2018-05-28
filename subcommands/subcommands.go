@@ -62,15 +62,10 @@ func show(c *docker.Config) error {
 		}
 	} else {
 		fmt.Println("not string slice .")
+		fmt.Println(reg)
 	}
-	//for _, v := range reg {
-	//	fmt.Println(v)
-	//}
-
-	fmt.Println(reg)
 
 	return nil
-
 }
 
 // add a docker insecure registry

@@ -68,6 +68,7 @@ func show(c *docker.Config) error {
 	return nil
 }
 
+// TODO 学习切片的相关操作，增减、删除元素等，排序等算法
 // add a docker insecure registry
 func add() {
 	fmt.Print("> ")

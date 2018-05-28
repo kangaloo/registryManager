@@ -37,6 +37,7 @@ func New(c string) (*Config, error) {
 	return conf, nil
 }
 
+// read string from file and assigns the json to c.config
 func (c *Config) load() error {
 
 	f, err := os.Open(c.path)
@@ -58,6 +59,7 @@ func (c *Config) load() error {
 	return nil
 }
 
+// update c.config from c.path
 func (c *Config) ReLoad() error {
 
 	c.setBackPath()

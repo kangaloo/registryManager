@@ -43,12 +43,23 @@ func save() {
 }
 
 // set docker config path
+// TODO 执行 set 命令后，需要将新的docker配置文件路径更新到 manager.conf
+// TODO 在该函数中增加修改配置文件的代码，将配置更新到 manager.conf 文件中
 func set(c *docker.Config) error {
+
 	l, err := common.Scanner("Input the docker config path: ")
 	if err != nil {
 		return err
 	}
-	return c.SetPath(l)
+
+	err = c.SetPath(l)
+	if err != nil {
+		return err
+	}
+
+	// TODO 在该位置更新 manager.conf
+
+	return nil
 }
 
 // print docker insecure registries

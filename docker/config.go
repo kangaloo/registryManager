@@ -164,12 +164,19 @@ func (c *Config) Dump() error {
 
 }
 
+// get element from the map c.config
 func (c *Config) Get(s string) interface{} {
 	i, ok := c.config[s]
 	if !ok {
 		return nil
 	}
 	return i
+}
+
+// get all elements from the map c.config
+func (c *Config) GetAll() interface{} {
+
+	return nil
 }
 
 /*

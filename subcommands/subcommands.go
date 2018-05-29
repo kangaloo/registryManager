@@ -42,6 +42,13 @@ func save() {
 
 }
 
+// print config file
+func print(c *docker.Config) error {
+
+	return nil
+
+}
+
 // set docker config path
 // TODO 执行 set 命令后，需要将新的docker配置文件路径更新到 manager.conf
 // TODO 在该函数中增加修改配置文件的代码，将配置更新到 manager.conf 文件中

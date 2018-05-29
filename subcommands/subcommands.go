@@ -43,8 +43,11 @@ func save() {
 }
 
 // print config file
-func print(c *docker.Config) error {
-	fmt.Println(c.GetAll())
+func list(c *docker.Config) error {
+	m := c.GetAll()
+	for k, v := range m {
+		fmt.Printf("%s: %s", k, v)
+	}
 	return nil
 }
 
@@ -106,7 +109,7 @@ var subCommands = map[string]Cmd{
 	"quit":  exit,
 	"help":  help,
 	"set":   set,
-	"print": print,
+	"print": list,
 	//"save": save,
 	//"add":  add,
 	//"del":  del,

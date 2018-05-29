@@ -10,6 +10,7 @@ func completer(d prompt.Document) []prompt.Suggest {
 		{Text: "exit", Description: "Quit this manager"},
 		{Text: "quit", Description: "Quit this manager"},
 		{Text: "help", Description: "Print usage"},
+		{Text: "print", Description: "Print the config file"},
 	}
 	return prompt.FilterHasPrefix(s, d.GetWordBeforeCursor(), true)
 }

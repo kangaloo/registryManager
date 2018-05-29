@@ -74,20 +74,20 @@ func (c *Config) ReLoad() error {
 
 }
 
-func (c *Config) SetPath(path string) error {
+func (c *Config) SetPath(path string) (string, error) {
 
 	_, err := os.Stat(path)
 	if err != nil {
-		return errors.New("path not exist")
+		return "", errors.New("path not exist")
 	}
 
 	c.path = path
 	err = c.ReLoad()
 	if err != nil {
-		return errors.New("")
+		return "", errors.New("")
 	}
 
-	return nil
+	return c.path, nil
 }
 
 func (c *Config) setBackPath() {

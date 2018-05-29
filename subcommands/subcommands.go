@@ -46,7 +46,7 @@ func save() {
 func list(c *docker.Config) error {
 	m := c.GetAll()
 	for k, v := range m {
-		fmt.Printf("%s: %s", k, v)
+		fmt.Printf("%s: %s\n", k, v)
 	}
 	return nil
 }
@@ -61,10 +61,12 @@ func set(c *docker.Config) error {
 		return err
 	}
 
-	err = c.SetPath(l)
+	path, err := c.SetPath(l)
 	if err != nil {
 		return err
 	}
+
+	fmt.Printf("reset config path successful, new path: %s\n", path)
 
 	// TODO 在该位置更新 manager.conf
 
@@ -137,6 +139,11 @@ func readStdin() string {
 
 // check if the command exist
 func CmdChecker(c string) (Cmd, error) {
+
+	if c == "" {
+		return nil, nil
+	}
+
 	cmd, ok := subCommands[c]
 	if !ok {
 		return nil, errors.New(fmt.Sprintf("%s command not exist", c))
@@ -173,9 +180,15 @@ func CmdScanner(conf *docker.Config) error {
 			continue
 		}
 
+		if cmd == nil {
+			continue
+		}
+
 		err = cmd(conf)
 		if err != nil {
 			fmt.Println(err)
 		}
+		fmt.Println("")
+
 	}
 }

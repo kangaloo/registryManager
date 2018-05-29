@@ -28,7 +28,6 @@ func CmdChecker(c string) (Cmd, error) {
 func CmdScanner(conf *docker.Config) error {
 
 	for {
-
 		l := prompt.Input(">> ", completer)
 		l = strings.TrimSpace(l)
 		cmd, err := CmdChecker(l)
@@ -47,6 +46,5 @@ func CmdScanner(conf *docker.Config) error {
 			fmt.Println(err)
 		}
 		fmt.Println("")
-
 	}
 }

@@ -1,141 +1,14 @@
 package subcommands
 
 import (
-	"bufio"
 	"errors"
 	"fmt"
 	"github.com/c-bata/go-prompt"
-	"manager/common"
 	"manager/docker"
-	"os"
 	"strings"
 )
 
-const AllCmds = `show set del exit`
-
-const helpStr = `	help: show this help
-	exit: exit the manager
-	quit: same as exit
-	set:  set the docker config path
-	show: show registries
-	`
-
-func help(c *docker.Config) error {
-
-	fmt.Println(helpStr)
-
-	return nil
-}
-
-func exit(c *docker.Config) error {
-	os.Exit(0)
-	return nil
-}
-
-/*
-const SubCommands  map[string]func() = map[string]func(){
-	"save": save,
-}
-
-*/
-func save() {
-
-}
-
-// print config file
-func list(c *docker.Config) error {
-	m := c.GetAll()
-	for k, v := range m {
-		fmt.Printf("%s: %s\n", k, v)
-	}
-	return nil
-}
-
-// set docker config path
-// TODO 执行 set 命令后，需要将新的docker配置文件路径更新到 manager.conf
-// TODO 在该函数中增加修改配置文件的代码，将配置更新到 manager.conf 文件中
-func set(c *docker.Config) error {
-
-	l, err := common.Scanner("Input the docker config path: ")
-	if err != nil {
-		return err
-	}
-
-	path, err := c.SetPath(l)
-	if err != nil {
-		return err
-	}
-
-	fmt.Printf("reset config path successful, new path: %s\n", path)
-
-	// TODO 在该位置更新 manager.conf
-
-	return nil
-}
-
-// print docker insecure registries
-func show(c *docker.Config) error {
-
-	reg := c.Get("insecure-registries")
-
-	if v, ok := reg.([]interface{}); ok {
-		for _, i := range v {
-			fmt.Println(i)
-		}
-	} else {
-		fmt.Println("not string slice .")
-		fmt.Println(reg)
-	}
-
-	return nil
-}
-
-// TODO 学习切片的相关操作，增减、删除元素等，排序等算法
-// add a docker insecure registry
-func add() {
-	fmt.Print("> ")
-	//iterm := readStdin()
-
-}
-
-// delete a docker insecure registry
-func del() {
-
-}
-
 type Cmd func(config *docker.Config) error
-
-var subCommands = map[string]Cmd{
-	"show":  show,
-	"exit":  exit,
-	"quit":  exit,
-	"help":  help,
-	"set":   set,
-	"print": list,
-	//"save": save,
-	//"add":  add,
-	//"del":  del,
-	//"exit": exit,
-}
-
-/*
-func CMDParser() {
-	r := bufio.NewReader(os.Stdin)
-	c, _, _ := r.ReadLine()
-
-	cmd := string(c)
-
-	commands := subCommands[cmd]
-	commands()
-
-}
-*/
-
-func readStdin() string {
-	r := bufio.NewReader(os.Stdin)
-	l, _, _ := r.ReadLine()
-	return string(l)
-}
 
 // check if the command exist
 func CmdChecker(c string) (Cmd, error) {
@@ -154,25 +27,10 @@ func CmdChecker(c string) (Cmd, error) {
 // TODO 针对registries实现 增加、删除、修改、查看四个功能
 func CmdScanner(conf *docker.Config) error {
 
-	// TODO 对每个输入进行检查、修改
-	// TODO 每个输入都是不可靠的，需要去掉开头、结尾的空格、换行符等
-
-	//r := bufio.NewReader(os.Stdin)
-
 	for {
 
 		l := prompt.Input(">> ", completer)
 		l = strings.TrimSpace(l)
-
-		/*
-			fmt.Print(">> ")
-			l, _, err := r.ReadLine()
-			if err != nil {
-				// TODO 此处应设置一个错误处理方式，使得出错后尽量不影响程序运行
-				log.Fatalln(err)
-			}
-		*/
-
 		cmd, err := CmdChecker(l)
 
 		if err != nil {

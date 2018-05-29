@@ -29,9 +29,7 @@ const helpStr = `	help: show this help
 	`
 
 func help(c *docker.Config) error {
-
 	fmt.Println(helpStr)
-
 	return nil
 }
 

@@ -174,9 +174,8 @@ func (c *Config) Get(s string) interface{} {
 }
 
 // get all elements from the map c.config
-func (c *Config) GetAll() interface{} {
-
-	return nil
+func (c *Config) GetAll() map[string]interface{} {
+	return c.config
 }
 
 /*

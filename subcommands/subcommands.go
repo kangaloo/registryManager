@@ -44,9 +44,8 @@ func save() {
 
 // print config file
 func print(c *docker.Config) error {
-
+	fmt.Println(c.GetAll())
 	return nil
-
 }
 
 // set docker config path
@@ -102,11 +101,12 @@ func del() {
 type Cmd func(config *docker.Config) error
 
 var subCommands = map[string]Cmd{
-	"show": show,
-	"exit": exit,
-	"quit": exit,
-	"help": help,
-	"set":  set,
+	"show":  show,
+	"exit":  exit,
+	"quit":  exit,
+	"help":  help,
+	"set":   set,
+	"print": print,
 	//"save": save,
 	//"add":  add,
 	//"del":  del,

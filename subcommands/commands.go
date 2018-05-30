@@ -17,6 +17,7 @@ var subCommands = map[string]Cmd{
 	"save":  save,
 	"add":   add,
 	"del":   del,
+	"pcd":   printcd,
 }
 
 const AllCmds = `show set del exit`
@@ -28,12 +29,19 @@ const helpStr = `	help: show this help
 	show: show registries
 	`
 
+// print current config path
+func printcd(c *docker.Config) error {
+	fmt.Println(c.GetPath())
+	return nil
+}
+
 func help(c *docker.Config) error {
 	fmt.Println(helpStr)
 	return nil
 }
 
 func exit(c *docker.Config) error {
+	fmt.Println()
 	os.Exit(0)
 	return nil
 }

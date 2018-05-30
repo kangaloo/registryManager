@@ -21,15 +21,12 @@ type Config struct {
 func New(c string) (*Config, error) {
 
 	_, err := os.Stat(c)
-
 	if err != nil {
 		return nil, err
 	}
 
 	var conf = &Config{path: c}
-
 	err = conf.load()
-
 	if err != nil {
 		return nil, err
 	}
@@ -64,14 +61,13 @@ func (c *Config) ReLoad() error {
 
 	c.setBackPath()
 	c.isBack = false
-
 	err := c.load()
+
 	if err != nil {
 		return err
 	}
 
 	return nil
-
 }
 
 func (c *Config) SetPath(path string) (string, error) {
@@ -176,6 +172,11 @@ func (c *Config) Get(s string) interface{} {
 // get all elements from the map c.config
 func (c *Config) GetAll() map[string]interface{} {
 	return c.config
+}
+
+// return c.path
+func (c *Config) GetPath() string {
+	return c.path
 }
 
 /*

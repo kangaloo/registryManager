@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-//const DefaultPath ="/etc/docker/daemon.json"
+// const DefaultPath ="/etc/docker/daemon.json"
 
 type Config struct {
 	path     string
@@ -34,7 +34,7 @@ func New(c string) (*Config, error) {
 	return conf, nil
 }
 
-// read string from file and assigns the json to c.config
+// load c.config from c.path
 func (c *Config) load() error {
 
 	f, err := os.Open(c.path)
@@ -56,10 +56,9 @@ func (c *Config) load() error {
 	return nil
 }
 
-// update c.config from c.path
+// update c.path and reload c.config from c.path
 func (c *Config) ReLoad() error {
 
-	c.setBackPath()
 	c.isBack = false
 	err := c.load()
 
@@ -86,14 +85,14 @@ func (c *Config) SetPath(path string) (string, error) {
 	return c.path, nil
 }
 
+// 设置备份文件的路径，以时间戳作为文件名的后缀
 func (c *Config) setBackPath() {
-
 	t := int(time.Now().Unix())
 	s := strconv.Itoa(t)
 	c.backPath = c.path + "." + s
-
 }
 
+// 备份配置文件
 func (c *Config) Back() error {
 
 	c.setBackPath()
@@ -106,39 +105,12 @@ func (c *Config) Back() error {
 	return nil
 }
 
+// 删除备份的配置文件
 func (c *Config) DelBack() error {
-
 	return nil
 }
 
-/*
-func loadConf(s string) (conf, error) {
-
-
-
-
-	return
-}
-
-func dumpConf(c conf) error {
-
-
-
-
-
-}
-
-
-func (c conf) test()  {
-
-}
-
-*/
-
-//func (c Config) Load()  {
-//
-//}
-
+// 向配置文件中写入修改后的配置，有待完善，目前不可用
 func (c *Config) Dump() error {
 
 	s, err := common.Map2json(c.config)
